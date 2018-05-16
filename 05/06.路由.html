@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .active {
+            color: pink;
+            background: honeydew;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 编程式导航 在js跳转页面 -->
+    <div id="app">
+        <router-link :to="{path:'/home'}">首页</router-link>
+        <router-link :to="{path:'/list'}">列表页</router-link>
+        <router-view></router-view>
+    </div>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script src="node_modules/vue-router/dist/vue-router.js"></script>
+    <script>
+        let home = {
+            template: '<div>首页 <button @click="toList">去列表</button></div>',
+            methods: {
+                toList() {
+                    this.$router.push('/list')
+                }
+            }
+        };
+        let list = {
+            template: '<div>列表页<button @click="toBack">去首页</button></div>',
+            methods: {
+                toBack() {
+                    this.$router.go(-1)
+                }
+            }
+        };
+        let routes = [
+            { path: '', component: home },//默认展示的路由
+            { path: '/home', component: home },
+            { path: '/list', component: list },
+            //{ path: '*', component: home }  这个地方路径不会变 只是切换了组件而已
+            { path: '*', redirect: '/home' }//路径变 组件也要切换 404的时候
+        ];
+        let router = new VueRouter({
+            routes,
+        });
+        let vm = new Vue({
+            el: '#app',
+            data: {},
+            router
+        });
+    </script>
+</body>
+
+</html>

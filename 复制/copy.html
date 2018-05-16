@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    *{
+        padding: 0;
+        margin: 0;
+    }
+    input{
+        outline: none;
+        border: none;
+    }
+    #text{
+        height: 40px;
+        width: 300px;
+        border: 2px solid silver;
+        border-radius: 20px;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        float: left;
+    }
+    #btn{
+        display: block;
+        width: 40px;
+        height: 44px;
+        background:blanchedalmond;
+        border-radius: 20px;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        line-height: 44px;
+        text-align: center;
+        text-decoration: none;
+        color:black;
+        float: left
+    }
+    div{
+        width: 960px;
+        margin: 30px auto;
+    }
+    </style>
+</head>
+<body>
+    <div>
+          <input type="text" value="我很帅" id="text"><a href="javascript:;" id="btn">复制</a>
+    </div>
+  
+</body>
+</html>
+<script>
+    let copy=document.getElementById('btn');
+    console.log(copy)
+copy.onclick=function(){
+     let text =document.getElementById("text");
+     text.select();
+     try{
+    //进行复制到剪切板
+    if(document.execCommand("Copy","false",null)){
+      //如果复制成功
+      alert("复制成功！");  
+    }else{
+      //如果复制失败
+      alert("复制失败！");
+    }
+  }catch(err){
+    //如果报错
+    alert("复制错误！")
+  }
+
+}
+
+   
+</script>

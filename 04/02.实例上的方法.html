@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <p ref="myp">{{msg}}</p>
+    </div>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+
+        /*
+            this.$data vm上的数据
+            this.$watch 监控
+                .$el 当前el元素
+                .$set 后加的属性实现响应式变化
+                .$nextTick  异步方法 等待Dom渲染完成后来获取vm
+                .$refs   (如果dom元素不是通过v-for循环出来的在 只能获取一个 通过循环出来的可以获取多个)
+        */
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                msg:'hello'
+            },
+            mounted(){
+                this.$refs
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+    <style>
+        .del {
+            text-decoration: line-through;
+            color: rgb(173, 167, 167);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">
+                        todoList
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-warning">
+                        <div class="panel-heading text-center h3 text-danger">
+                            <h3>亲,你有{{count}}件事要完成</h3>
+                            <input type="text" v-model="title" @keyup.enter="add">
+                        </div>
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                <li class="list-group-item" v-for="item in filterTodos" @dblclick="remember(item)">
+                                    <span :class="{del:item.isSelected}" v-show="cur!==item">
+                                        <input type="checkbox" v-model="item.isSelected">{{item.title}}
+                                    </span>
+                                    <input type="text" v-model="item.title" v-show="cur==item" @keyup.enter="cancel" @blur="cancel" v-focus="cur==item">
+                                    <button class=" btn pull-right btn-danger btn-xs " @click="remove(item) ">&bigotimes;</button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="panel-footer ">
+                            <ul class="nav nav-pills ">
+                                <li role="presentation" :class="{active:hash==='all'}">
+                                    <a href="#all ">全部任务</a>
+                                </li>
+                                <li role="presentation" :class="{active:hash==='finish'}">
+                                    <a href="#finish ">已完成</a>
+                                </li>
+                                <li role="presentation" :class="{active:hash==='unfinished'}">
+                                    <a href="#unfinished ">未完成</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script src="node_modules/vue/dist/vue.js "></script>
+    <script src="node_modules/axios/dist/axios.js "></script>
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            created(){
+                //如果localStorage中有数据 就用  没有就用默认的
+              this.todos = JSON.parse( localStorage.getItem('data'))||this.todos;
+              //监控hash值得变化 如果页面已经有hash了 重新刷新页面也要获取hash值
+              this.hash=window.location.hash.slice(1)||'all';
+              window.addEventListener('hashchange',()=>{
+                  //当hash值变化 重新操作记录的数据
+                  this.hash=window.location.hash.slice(1);
+              },false)
+            },
+            watch: {
+                todos: {//watch默认只监控一层数据的变化,深度监控
+                    handler() {//默认写成函数 就相当于默认写了handler
+                        localStorage.setItem('data', JSON.stringify(this.todos));
+                    }, deep: true//是否深度
+                }
+            },
+            directives: {
+                focus(el, b) {
+                    if (b.value) {
+                        el.focus();
+                    }
+                }
+            },
+            computed: {
+                count() {
+                    return this.todos.filter(item => !item.isSelected).length
+                },
+                filterTodos(){
+                    if(this.hash==='all'){
+                        return this.todos;
+                    }else if(this.hash==='finish'){
+                        return this.todos.filter(item=>item.isSelected)
+                    }else if(this.hash==='unfinished'){
+                        return this.todos.filter(item=>!item.isSelected)
+                    }else{
+                        return this.todos;
+                    }
+                }
+            },
+            methods: {
+                cancel() {
+                    this.cur = '';
+                },
+                remember(item) {
+                    this.cur = item;
+                },
+                add() {
+                    this.todos.push({
+                        isSelected: false,
+                        title: this.title
+                    })
+                    this.title = '';
+                },
+                remove(n) {
+                    this.todos = this.todos.filter(item => item !== n)
+                }
+            },
+
+            data: {
+                todos: [
+                    { isSelected: false, title: "读书 " },
+                    { isSelected: false, title: "敲代码 " },
+                ],
+                title: '',
+                cur: '',
+                hash:''
+            },
+        });
+    </script>
+</body>
+
+</html>

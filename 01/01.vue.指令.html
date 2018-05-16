@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+       <!-- vue的指令只是dom上的行间属性 vue给这类属性赋予了一定的意义 来实现特殊的功能 所有指令都是以v-开头  -->
+
+       <!-- v-model会将msg的值赋予输入框 输入框的值改变会影像数据 -->
+       <input type="text" v-model="msg">
+
+       <!-- v-text防止闪烁 -->
+       <div v-text="msg"></div>
+
+       <!-- v-once 只绑定一次 -->
+       <div v-once></div>
+
+       <!-- v-html 把html字符串当做html渲染 一定是可信任的HTML-->
+        <div v-html="p"></div>
+    </div>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+        let vm = new Vue({
+            el:'#app',
+            data:{
+                msg:"张三",
+                p:"<p>哈喽</p>"
+            },
+        });
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        
+    </div>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+
+        //如果要在一个组件上使用另一个组件 :
+        //-->先保证使用的组件真实存在  
+        //-->在需要引用组件的实例上通过components注册这个组件 //-->组件需要在父集的模板中通过标签的形式引入
+        let grandson = {
+            template: '<div>grandson</div>'
+        };
+        let child = {
+            template: '<div>child <grandson></grandson></div>',
+            components: {
+                grandson
+            }
+        };
+        let parent = {
+            template: '<div>parent <child></child></div>',
+            components: {
+                child
+            }
+        };
+
+
+        let vm = new Vue({
+            el: '#app',
+            template: '<parent></parent>',
+            components: {
+                    parent
+            },
+            data: {
+
+            },
+        });
+    </script>
+</body>
+
+</html>
