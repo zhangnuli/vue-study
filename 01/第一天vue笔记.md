@@ -6,12 +6,12 @@
 - 通过一个组合完成一个完整的框架
 - vue全家桶 vuejs+vue-router+vuex+axios
 
-##MVC
+## MVC
 - model 数据
 - view 视图
 - controller 控制器
 
-##MVVM
+## MVVM
 - model 数据
 - view 视图
 - viewModel 视图模型
